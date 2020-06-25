@@ -1,0 +1,54 @@
+variables:
+  DOCKER_DRIVER: overlay2
+image: alanfernando93/monkey-nodbrew
+
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - node_modules/
+
+before_script:
+  - brew install libpng
+  - node -v
+  - npm install -g yarn
+  - eval $(ssh-agent -s)
+  - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+  - mkdir -p ~/.ssh
+  - chmod 700 ~/.ssh
+  - ssh-keyscan 34.94.173.160  >> ~/.ssh/known_hosts
+  - chmod 644 ~/.ssh/known_hosts
+
+stages:
+  - deploydev
+  - deployprod
+
+Deploy for Performance Test:
+  stage: deploydev
+  only:
+    - feature/better-performance
+  script:
+    - yarn install --silent
+    - yarn build:dev
+    - yarn start:test
+
+Deploy Frontend with Next:
+  stage: deploydev
+  only:
+    - develop
+  script:
+    - yarn install --silent
+    - yarn build:dev
+    - ssh gitlab@34.94.173.160 'pm2 stop dNext'
+    - rsync -r -a -z -e ssh --delete --exclude './node_modules' . gitlab@34.94.173.160:/home/gitlab/municipios/dNextFrontend
+    - ssh gitlab@34.94.173.160 'pm2 restart dNext'
+
+Deploy Frontend with Next Production:
+  stage: deployprod
+  only:
+    - master
+  script:
+    - yarn install --silent
+    - yarn build
+    - ssh gitlab@34.94.173.160 'pm2 stop next'
+    - rsync -r -a -z -e ssh --delete --exclude './node_modules' . gitlab@34.94.173.160:/home/gitlab/municipios/nextFrontend
+    - ssh gitlab@34.94.173.160 'pm2 restart next'
