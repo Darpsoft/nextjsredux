@@ -42,7 +42,7 @@ const MapWithASearchBox = compose(
     mapElement: <div style={{ height: '100%' }} />
   }),
   lifecycle({
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
       const refs = {};
 
       this.setState({

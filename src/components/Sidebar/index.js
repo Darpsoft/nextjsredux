@@ -103,7 +103,7 @@ class Sidebar extends React.Component {
       status, anchorEl, turnDarker, dataMenuAdjusted
     } = this.state;
     return (
-      <Fragment>
+      <>
         <Hidden lgUp>
           <SwipeableDrawer
             onClose={toggleDrawerOpen}
@@ -155,8 +155,8 @@ class Sidebar extends React.Component {
             />
           </Drawer>
         </Hidden>
-      </Fragment>
-    );
+      </>
+    )
   }
 }
 
@@ -178,5 +178,5 @@ const mapStateToProps = state => ({
   dataMenu: state.getIn(['municipality', 'features'])
 });
 
-const withConnect = connect(mapStateToProps)(Sidebar);
+const withConnect = connect(mapStateToProps, null)(Sidebar);
 export default withStyles(styles)(withConnect);

@@ -10,6 +10,7 @@ import { compose } from 'recompose';
 import styles from '@components/Widget/widget-jss';
 import { getListPosts } from '@api/apiRest/secondary';
 import { NoData, NewsWidget } from '@components';
+import { $CombinedState } from 'redux';
 
 class Obras extends Component {
   state = {

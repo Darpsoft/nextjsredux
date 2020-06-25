@@ -37,7 +37,7 @@ class RecordSigninSettings extends Component {
     linkAvatar: '',
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { avatar, listRecordsLogin } = this.props;
     listRecordsLogin();
     let linkAvatar = '';

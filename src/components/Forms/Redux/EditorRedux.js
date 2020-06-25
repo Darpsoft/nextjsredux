@@ -17,7 +17,7 @@ class EditorRedux extends Component {
     };
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { ...rest } = this.props;
     this.setState({ _toolbar: rest.toolbar });
   }

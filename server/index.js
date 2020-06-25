@@ -21,11 +21,8 @@ const testPerformance = process.argv[2] === "test";
 app.prepare().then(() => {
   const server = express();
   server.get("/service-worker.js", (req, res) => {
-    app.serveStatic(
-      req,
-      res,
-      join(process.env.PWD, ".next/static", "/service-worker.js")
-    );
+		const PWD = process.env.PWD ? process.env.PWD : process.cwd()
+    app.serveStatic( req, res, join(PWD, ".next/static", "/service-worker.js"));
   });
   server.get("*", (req, res) => {
     return handle(req, res);

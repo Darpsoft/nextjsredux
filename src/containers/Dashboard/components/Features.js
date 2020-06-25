@@ -9,7 +9,7 @@ class Features extends Component {
     const { features, classes } = this.props;
     const featuresMenu = features.length > 0 ? features.filter(f => f.category === 'menu') : [];
     return (
-      <Fragment>
+      <>
         {featuresMenu.length > 0 ? (
           <Grid container spacing={2} className={classes.root}>
             {featuresMenu.map(f => (
@@ -27,7 +27,7 @@ class Features extends Component {
             // <Loading local />
             <div>...Loading</div>
           )}
-      </Fragment>
+      </>
     );
   }
 }
@@ -41,4 +41,4 @@ const mapStateToProps = state => ({
   features: state.getIn(['municipality', 'features'])
 });
 
-export default connect(mapStateToProps)(Features);
+export default connect(mapStateToProps, null)(Features);

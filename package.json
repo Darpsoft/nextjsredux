@@ -7,13 +7,14 @@
     "dev:staging": "cross-env NODE_ENV=development node server",
     "build:dev": "cross-env NODE_BRANCH=development next build",
     "build": "cross-env NODE_BRANCH=production next build",
-    "start:test": "cross-env NODE_ENV=production NODE_BRANCH=development PORT=7070 node server test",
-    "start:dev": "cross-env NODE_ENV=production NODE_BRANCH=development PORT=7070 node server",
-    "start": "cross-env NODE_ENV=production NODE_BRANCH=production node server",
+    "start": "cross-env NODE_ENV=production NODE_BRANCH=development node server -p $PORT",
     "export:dev": "rm -rf ./out && cross-env NODE_EXPORT=true NODE_BRANCH=development next export",
     "export:prod": "rm -rf ./out && cross-env NODE_EXPORT=true NODE_BRANCH=production next export",
     "analyze": "cross-env BUNDLE_ANALYZE=true next build",
-    "performance": "node lighthouse http://localhost:7070 && node performance"
+    "lighthouse:mobile": "lighthouse http://localhost:3000 --emulated-form-factor mobile --view --quiet --chrome-flags='--headless' --output-path=./lighthouse.report.mobile.html",
+    "lighthouse:desktop": "lighthouse http://localhost:3000 --emulated-form-factor desktop --view --quiet --chrome-flags='--headless' --output-path=./lighthouse.report.desktop.html",
+    "performance": "yarn lighthouse:mobile && yarn lighthouse:desktop",
+    "heroku-postbuild": "npm run build"
   },
   "lint-staged": {
     "*.js": [
@@ -82,6 +83,7 @@
     "recharts": "^1.8.5",
     "recompose": "^0.30.0",
     "redux": "^4.0.5",
+    "redux-devtools-extension": "2.13.8",
     "redux-form": "^8.3.5",
     "redux-immutable": "^4.0.0",
     "redux-saga": "^1.1.3",
@@ -96,7 +98,6 @@
     "babel-plugin-module-resolver": "^4.0.0",
     "happypack": "^5.0.1",
     "lighthouse": "^5.6.0",
-    "redux-devtools-extension": "^2.13.8",
     "sass-material-colors": "^0.0.5",
     "svg-url-loader": "^5.0.0",
     "url-loader": "^4.1.0"

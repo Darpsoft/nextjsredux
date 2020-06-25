@@ -7,11 +7,25 @@ import {
   GET_POST,
   GET_POSTS_SUBCATEGORIES,
   GET_POSTS,
+  SET_FEATURES,
+  SET_DEPARTMENTS
 } from './actionConstants';
 
-export const setMunicipalityAction = () => ({
-  type: SET_MUNICIPALITY
-});
+export const setMunicipalityAction = payload => ({
+  type: SET_MUNICIPALITY,
+  payload
+})
+
+// NUEVOS ACTIONS
+export const setFeaturesAction = (features, channels) => ({
+  type: SET_FEATURES,
+  features,
+  channels
+})
+export const setDepartmentsAction = payload => ({
+  type: SET_DEPARTMENTS,
+  payload
+})
 
 export const getFeaturesAction = (municipalityId) => ({
   type: GET_FEATURES,

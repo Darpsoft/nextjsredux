@@ -2,27 +2,42 @@ import { put, call, takeLatest } from 'redux-saga/effects';
 import {
   SET_MUNICIPALITY,
   MUNICIPALITY_DATA,
-  GET_FEATURES,
+  // GET_FEATURES,
   SET_FEATURES,
-  GET_DEPARTMENTS,
+  // GET_DEPARTMENTS,
   SET_DEPARTMENTS,
 } from '../../actions/actionConstants';
+import { LOAD_PAGE } from '@actions/actionConstants'
 import MunicipalityApi from '../../api/services/municipality.service';
 import MunicipalitiesApi from '../../api/services/municipalities.service';
 
-import { apiGet } from '../../api/apiRest/primary';
+/* import { apiGet } from '../../api/apiRest/primary';
 let cFeatures = 0;
-let cDepartments = 0;
+let cDepartments = 0; */
 
 function* setMunicipality() {
-  const municipality = yield call(
-    [MunicipalityApi, 'hostingProgress'],
-    window.location.hostname
-  );
-  yield put({ type: MUNICIPALITY_DATA, value: municipality });
+  try {
+    const municipality = yield call([MunicipalityApi, 'hostingProgress'], window.location.hostname)
+
+    const { features, channels } = yield call([MunicipalitiesApi, 'getFeatures'], municipality.id)
+    const departments = yield call([MunicipalitiesApi, 'getDepartments'], municipality.id)
+    yield put({ type: SET_FEATURES, features, channels })
+    yield put({ type: SET_DEPARTMENTS, departments })
+
+    // Segunda opción
+    // yield call(getFeatures, municipality.id)
+    // yield call(getDepartments, municipality.id)
+
+    yield put({ type: MUNICIPALITY_DATA, value: municipality })
+    yield put({ type: LOAD_PAGE, isLoaded: true }) // Deshabilitar el loading
+  } catch (e) {
+    console.log(e)
+    yield put({ type: LOAD_PAGE, isLoaded: true }) // Deshabilitar el loading
+  }
 }
 
-function* getFeatures(municipalityId) {
+/* function* getFeatures(municipalityId) {
+  console.log(municipalityId)
   // const municipality = yield call(
   //   [MunicipalityApi, 'onInit'],
   //   municipalityId
@@ -90,9 +105,9 @@ function* getFeatures(municipalityId) {
     yield put({ type: SET_FEATURES, features, channels });
   }
   cFeatures += 1;
-}
+} */
 
-function* getDepartments(municipalityId) {
+/* function* getDepartments(municipalityId) {
   if (cDepartments === 0) {
     let departments = yield call(
       apiGet,
@@ -116,15 +131,19 @@ function* getDepartments(municipalityId) {
     yield put({ type: SET_DEPARTMENTS, departments });
   }
   cDepartments += 1;
-}
+} */
+
 export default function* rootSaga() {
   yield takeLatest(SET_MUNICIPALITY, setMunicipality);
-  yield takeLatest(GET_FEATURES, function* test(param) {
-    yield call(getFeatures, param.value);
-  });
-  yield takeLatest(GET_DEPARTMENTS, function* test(param) {
-    yield call(getDepartments, param.value);
-  });
+
+  // yield takeLatest(GET_FEATURES, function* test(param) {
+  //   yield call(getFeatures, param.value);
+  // });
+  // yield takeLatest(GET_DEPARTMENTS, function* test(param) {
+  //   yield call(getDepartments, param.value);
+  // });
+
+
   // yield takeLatest(GET_LAST_LAWS, function* test(param) {
   // yield call(getLastLaws, param.value);
   // });

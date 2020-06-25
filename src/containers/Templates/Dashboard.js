@@ -10,10 +10,10 @@ import {
 } from '@actions/UiActions';
 import { DAEMON } from '@utils/constants';
 import { withStyles } from '@material-ui/core/styles';
-import {
-  getFeaturesAction,
-  getDepartmentsAction,
-} from '@actions/MunicipalityDataActions';
+// import {
+//   getFeaturesAction,
+//   getDepartmentsAction,
+// } from '@actions/MunicipalityDataActions';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import injectSaga from '@utils/injectSaga';
@@ -32,44 +32,53 @@ class Dashboard extends React.Component {
     openGuide: false,
   };
 
-  componentDidUpdate(prevProps) {
-    const { getFeatures, getDepartments, municipalityId } = this.props;
-    const { changed } = treeChanges(prevProps, this.props);
-    if (changed('municipalityId')) {
-      console.log('Obteniendo datos')
-      getFeatures(municipalityId);
-      getDepartments(municipalityId);
-    }
-  }
+  // componentDidUpdate(prevProps) {
+  //   const { getFeatures, getDepartments, municipalityId } = this.props;
+  //   const { changed } = treeChanges(prevProps, this.props);
+  //   console.log(prevProps, 'COMPONENT DID UPDATE', changed('municipalityId'))
+  //   if (changed('municipalityId')) {
+  //     console.log('Obteniendo datos')
+  //     getFeatures(municipalityId);
+  //     getDepartments(municipalityId);
+  //   }
+  // }
 
   componentDidMount = () => {
     const {
       router,
       initialOpen,
-      loadTransition,
-      municipalityId,
-      getFeatures,
-      getDepartments,
-      setMunicipality
+      // loadTransition,
+      // municipalityId,
+      // getFeatures,
+      // getDepartments,
+      // setMunicipality
       // authenticate
     } = this.props;
 
-    setMunicipality()
+    // setMunicipality()
+
     // authenticate();
     // Set expanded sidebar menu
     const currentPath = router.pathname;
-    initialOpen(currentPath);
-    // Play page transition
-    loadTransition(true);
+    // initialOpen(currentPath);
 
+
+    // Play page transition
+    // loadTransition(true);
+
+    // No hace falta porque se mostrará todo el contenido luego 
+    // de tener los datos en el cliente, de esta forma no se habilitará el Scroll de la página
+    // y no habrá necesidad subir el scroll
+    
     // Execute all arguments when page changes
-    router.beforePopState(() => {
-      window.scrollTo(0, 0);
-      setTimeout(() => {
-        loadTransition(true);
-      }, 500);
-    });
+    // router.beforePopState(() => {
+    //   window.scrollTo(0, 0);
+    //   setTimeout(() => {
+    //     // loadTransition(true);
+    //   }, 500);
+    // });
   };
+
 
   handleOpenGuide = () => {
     this.setState({ openGuide: true });
@@ -103,6 +112,7 @@ class Dashboard extends React.Component {
     ];
     const parts = router.pathname.split('/');
     const place = parts[parts.length - 1].replace('-', ' ');
+    console.log('SE RENDER EL DASHBOARD')
     return (
       <div
         className={classNames(
@@ -150,9 +160,9 @@ Dashboard.propTypes = {
   deco: PropTypes.bool.isRequired,
   bgPosition: PropTypes.string.isRequired,
   layout: PropTypes.string.isRequired,
-  municipalityId: PropTypes.string.isRequired,
-  getFeatures: PropTypes.func.isRequired,
-  getDepartments: PropTypes.func.isRequired,
+  // municipalityId: PropTypes.string.isRequired,
+  // getFeatures: PropTypes.func.isRequired,
+  // getDepartments: PropTypes.func.isRequired,
   // authenticate: PropTypes.func.isRequired,
 };
 
@@ -165,7 +175,7 @@ const mapStateToProps = (state) => ({
   deco: state.getIn([reducer, 'decoration']),
   layout: state.getIn([reducer, 'layout']),
   bgPosition: state.getIn([reducer, 'bgPosition']),
-  municipalityId: state.getIn(['municipality', 'municipalityId']),
+  // municipalityId: state.getIn(['municipality', 'municipalityId']),
   ...state,
 });
 
@@ -173,9 +183,9 @@ const mapDispatchToProps = (dispatch) => ({
   toggleDrawer: () => dispatch(toggleAction),
   initialOpen: bindActionCreators(openAction, dispatch),
   loadTransition: bindActionCreators(playTransitionAction, dispatch),
-  getFeatures: bindActionCreators(getFeaturesAction, dispatch),
-  getDepartments: bindActionCreators(getDepartmentsAction, dispatch),
-  setMunicipality: bindActionCreators(setMunicipalityAction, dispatch)
+  // getFeatures: bindActionCreators(getFeaturesAction, dispatch),
+  // getDepartments: bindActionCreators(getDepartmentsAction, dispatch),
+  // setMunicipality: bindActionCreators(setMunicipalityAction, dispatch)
   // authenticate: bindActionCreators(isAuthenticate, dispatch)
 });
 
@@ -197,3 +207,11 @@ export default withRouter(
     )(Dashboard)
   )
 );
+
+// export default ({children}) => {
+//   return(
+//     <>
+//       {children}
+//     </>
+//   )
+// }
