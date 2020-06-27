@@ -12,12 +12,6 @@ import { withRouter } from 'next/router';
 const Decoration = dynamic(() => import('../Decoration'))
 
 class RightSidebarLayout extends React.Component {
-
-  // shouldComponentUpdate(newProps) {
-  //   console.log(newProps, this.props)
-  //   return this.props.pageLoaded === false
-  // }
-
   render() {
     const {
       classes,
@@ -36,9 +30,8 @@ class RightSidebarLayout extends React.Component {
       titleException,
       handleOpenGuide,
     } = this.props;
-    console.log('SE RENDER RIGHT SIDEBARLAYOUT')
     return (
-      <>
+      <Fragment>
         <Header
           toggleDrawerOpen={toggleDrawer}
           margin={sidebarOpen}
@@ -119,7 +112,7 @@ class RightSidebarLayout extends React.Component {
           loadTransition={loadTransition}
           leftSidebar={false}
         />
-      </>
+      </Fragment>
     );
   }
 }

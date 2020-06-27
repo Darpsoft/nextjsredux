@@ -10,17 +10,16 @@ import {
 } from '@actions/UiActions';
 import { DAEMON } from '@utils/constants';
 import { withStyles } from '@material-ui/core/styles';
-// import {
-//   getFeaturesAction,
-//   getDepartmentsAction,
-// } from '@actions/MunicipalityDataActions';
+import {
+  getFeaturesAction,
+  getDepartmentsAction,
+} from '@actions/MunicipalityDataActions';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import injectSaga from '@utils/injectSaga';
 import { compose } from 'recompose';
 import treeChanges from 'tree-changes';
 import RightSidebarLayout from './layouts/RightSidebarLayout';
-// const RightSidebarLayout = dynamic(() => import('./layouts/RightSidebarLayout'))
 import municipalitySaga from '@redux/sagas/municipality';
 import styles from './appStyles-jss';
 import { setMunicipalityAction } from '../../actions/MunicipalityDataActions';
@@ -35,7 +34,6 @@ class Dashboard extends React.Component {
   // componentDidUpdate(prevProps) {
   //   const { getFeatures, getDepartments, municipalityId } = this.props;
   //   const { changed } = treeChanges(prevProps, this.props);
-  //   console.log(prevProps, 'COMPONENT DID UPDATE', changed('municipalityId'))
   //   if (changed('municipalityId')) {
   //     console.log('Obteniendo datos')
   //     getFeatures(municipalityId);
@@ -47,38 +45,31 @@ class Dashboard extends React.Component {
     const {
       router,
       initialOpen,
-      // loadTransition,
-      // municipalityId,
-      // getFeatures,
-      // getDepartments,
-      // setMunicipality
+      loadTransition,
+      municipalityId,
+      getFeatures,
+      getDepartments,
+      setMunicipality
       // authenticate
     } = this.props;
 
     // setMunicipality()
-
     // authenticate();
     // Set expanded sidebar menu
-    const currentPath = router.pathname;
-    // initialOpen(currentPath);
-
-
-    // Play page transition
-    // loadTransition(true);
-
-    // No hace falta porque se mostrará todo el contenido luego 
-    // de tener los datos en el cliente, de esta forma no se habilitará el Scroll de la página
-    // y no habrá necesidad subir el scroll
     
-    // Execute all arguments when page changes
-    // router.beforePopState(() => {
-    //   window.scrollTo(0, 0);
-    //   setTimeout(() => {
-    //     // loadTransition(true);
-    //   }, 500);
-    // });
-  };
+    const currentPath = router.pathname;
+    initialOpen(currentPath);
+    // // Play page transition
+    loadTransition(true);
 
+    // // Execute all arguments when page changes
+    router.beforePopState(() => {
+      window.scrollTo(0, 0);
+      setTimeout(() => {
+        loadTransition(true);
+      }, 500);
+    });
+  };
 
   handleOpenGuide = () => {
     this.setState({ openGuide: true });
@@ -112,7 +103,6 @@ class Dashboard extends React.Component {
     ];
     const parts = router.pathname.split('/');
     const place = parts[parts.length - 1].replace('-', ' ');
-    console.log('SE RENDER EL DASHBOARD')
     return (
       <div
         className={classNames(
@@ -137,10 +127,9 @@ class Dashboard extends React.Component {
           bgPosition={bgPosition}
           place={place}
           titleException={titleException}
-          handleOpenGuide={this.handleOpenGuide}
-        >
-          {children}
-        </RightSidebarLayout>
+          handleOpenGuide={this.handleOpenGuide}>
+            {children}
+          </RightSidebarLayout>
       </div>
     );
   }
@@ -207,11 +196,3 @@ export default withRouter(
     )(Dashboard)
   )
 );
-
-// export default ({children}) => {
-//   return(
-//     <>
-//       {children}
-//     </>
-//   )
-// }

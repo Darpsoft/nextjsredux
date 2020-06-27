@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-// import { compose } from 'recompose';
+import { compose } from 'recompose';
 import { getLastNewsAction } from '@actions/MunicipalityDataActions';
 
 class SliderLanding extends Component {
@@ -23,7 +23,7 @@ class SliderLanding extends Component {
     // }
   }
 
-  UNSAFE_componentWillUpdate(newProps) {
+  componentWillUpdate(newProps) {
     const { municipalityId, getLastNews } = newProps;
     const { loader } = this.state;
     if (municipalityId !== '' && loader) {
@@ -96,13 +96,11 @@ const mapDispatchToProps = dispatch => ({
   getLastNews: bindActionCreators(getLastNewsAction, dispatch)
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(SliderLanding)
+const withConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps
+);
 
-// const withConnect = connect(
-//   mapStateToProps,
-//   mapDispatchToProps
-// );
-
-// export default compose(
-//   withConnect
-// )(SliderLanding);
+export default compose(
+  withConnect
+)(SliderLanding);

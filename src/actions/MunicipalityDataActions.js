@@ -11,20 +11,23 @@ import {
   SET_DEPARTMENTS
 } from './actionConstants';
 
-export const setMunicipalityAction = payload => ({
+// UPDATED
+export const setMunicipalityAction = value => ({
   type: SET_MUNICIPALITY,
-  payload
+  value
 })
 
-// NUEVOS ACTIONS
+// NEW
 export const setFeaturesAction = (features, channels) => ({
   type: SET_FEATURES,
   features,
   channels
 })
-export const setDepartmentsAction = payload => ({
+
+// NEW
+export const setDepartmentsAction = departments => ({
   type: SET_DEPARTMENTS,
-  payload
+  departments
 })
 
 export const getFeaturesAction = (municipalityId) => ({

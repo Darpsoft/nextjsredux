@@ -8,7 +8,7 @@ class Estrategics extends Component {
     icon: ''
   };
 
-  UNSAFE_componentWillMount() {
+  componentWillMount() {
     const { type } = this.props;
     switch (type) {
       case 'mission':

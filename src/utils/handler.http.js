@@ -63,7 +63,7 @@ export const errorHandler = error => {
   err.config = error.config;
   err.response = error.response;
   err.request = error.request;
-  console.error(err);
+  //console.error(err);
   return Promise.reject(err);
 };
 

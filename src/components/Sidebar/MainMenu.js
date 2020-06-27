@@ -33,32 +33,30 @@ class MainMenu extends React.Component {
   }
 
   setDataMenu(departments, dataMenu) {
-    if(departments){
-      if (departments.length > 0 && dataMenu.length > 0) {
-        this.setState({
-          dataMenuAdjusted: [
-            {
-              title2: 'Inicio',
-              link: '/',
-              icon: 'home-outline',
-              key: 'home',
-            },
-            ...this.features('menu', dataMenu),
-            {
-              key: 'others',
-              name: 'Publicaciones',
-              icon: 'library_books',
-              child: this.features('footer', dataMenu),
-            },
-            {
-              key: 'directions',
-              name: 'Direcciones',
-              icon: 'work',
-              child: this.getDepartments(departments),
-            },
-          ],
-        });
-      }
+    if (departments.length > 0 && dataMenu.length > 0) {
+      this.setState({
+        dataMenuAdjusted: [
+          {
+            title2: 'Inicio',
+            link: '/',
+            icon: 'home-outline',
+            key: 'home',
+          },
+          ...this.features('menu', dataMenu),
+          {
+            key: 'others',
+            name: 'Publicaciones',
+            icon: 'library_books',
+            child: this.features('footer', dataMenu),
+          },
+          {
+            key: 'directions',
+            name: 'Direcciones',
+            icon: 'work',
+            child: this.getDepartments(departments),
+          },
+        ],
+      });
     }
   }
 

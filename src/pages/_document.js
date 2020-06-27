@@ -1,6 +1,6 @@
-import React from 'react';
-import Document, { Head, Main, NextScript, Html } from 'next/document';
-import { ServerStyleSheets } from '@material-ui/core/styles';
+import React from "react";
+import Document, { Head, Main, NextScript, Html } from "next/document";
+import { ServerStyleSheets } from "@material-ui/core/styles";
 
 class MyDocument extends Document {
   render() {
@@ -86,22 +86,17 @@ class MyDocument extends Document {
             href="/favicons/favicon-16x16.png"
           />
           <link rel="manifest" href="/manifest.json" />
+          <link rel="preconnect" href={process.env.API_REST} />
+          <link
+            rel="preconnect"
+            href="https://maps.googleapis.com/maps/api/staticmap"
+          />
           <meta name="msapplication-TileColor" content="#ffffff" />
           <meta
             name="msapplication-TileImage"
             content="/favicons/ms-icon-144x144.png"
           />
           <meta name="theme-color" content="#2196F3" />
-          <link
-            href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700"
-            rel="stylesheet"
-            async
-          />
-          <link
-            href="https://fonts.googleapis.com/icon?family=Material+Icons"
-            rel="stylesheet"
-            async
-          />
         </Head>
         <body>
           <div id="page-transition"></div>
@@ -112,12 +107,12 @@ class MyDocument extends Document {
     );
   }
 }
-MyDocument.getInitialProps = async ctx => {
+MyDocument.getInitialProps = async (ctx) => {
   const sheets = new ServerStyleSheets();
   const originalRenderPage = ctx.renderPage;
   ctx.renderPage = () =>
     originalRenderPage({
-      enhanceApp: App => props => sheets.collect(<App {...props} />),
+      enhanceApp: (App) => (props) => sheets.collect(<App {...props} />),
     });
   const initialProps = await Document.getInitialProps(ctx);
   return {
@@ -127,7 +122,7 @@ MyDocument.getInitialProps = async ctx => {
       <React.Fragment key="styles">
         {initialProps.styles}
         {sheets.getStyleElement()}
-      </React.Fragment>
+      </React.Fragment>,
     ],
   };
 };

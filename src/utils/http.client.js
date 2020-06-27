@@ -3,8 +3,8 @@ import Axios from 'axios';
 import { successHandler, errorHandler, requestHandler } from './handler.http';
 //import Storage from './storage';
 
-// const urlBase = process.env.API_REST;
-const urlBase = 'https://dbm.blockchainconsultora.com'
+const urlBase = process.env.API_REST;
+
 const instanceAxios = Axios.create({
   baseURL: `${urlBase}/`,
   // adapter: adapterHttp,
@@ -58,7 +58,7 @@ export default class HttpClient {
     }
     this.point = '';
     return new Promise((success, fail) => {
-      const objectRequest = {
+      instanceAxios({
         method,
         url: urlRequest,
         headers: {
@@ -67,8 +67,7 @@ export default class HttpClient {
         },
         params,
         data: body,
-      }
-      instanceAxios(objectRequest)
+      })
         .then((result) => success(result.data))
         .catch((error) => fail(error));
     });
@@ -83,7 +82,6 @@ export default class HttpClient {
   }
 
   find(filter = {}, param = {}) {
-    // console.log(filter, param)
     return this.request('get', null, filter, param);
   }
 

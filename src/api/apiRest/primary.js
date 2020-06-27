@@ -1,6 +1,5 @@
 import Axios from 'axios';
-// const urlBase = process.env.API_REST;
-const urlBase = 'https://dbm.blockchainconsultora.com'
+const urlBase = process.env.API_REST;
 
 function apiGet(apiUrl, where = {}, fields = [], include = [], headers = {}) {
   return new Promise((succes, fail) => {

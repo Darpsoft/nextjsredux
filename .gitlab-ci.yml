@@ -22,41 +22,33 @@ stages:
   - deploydev
   - deployprod
 
-# Backend to development:
-#   stage: deploydev
-#   only:
-#     - develop
-#   script:
-#     - npm install --silent
-#     - npm run build:dll
-#     - npm run build:dev
-#     - ls -la app
-#     - cp app/.htaccess build/.htaccess
-#     - cp app/robots.txt build/
-#     - cp app/sitemap.txt build/
-#     - cp -r public/* build/
-#     - rsync -r -a -z -e ssh --delete build/ gitlab@34.94.173.160:/home/gitlab/municipios/devFrontend
-
-Nextjs to develop:
+Deploy for Performance Test:
   stage: deploydev
   only:
-    - feature/nextjs
+    - feature/better-performance
   script:
     - yarn install --silent
     - yarn build:dev
-    - yarn export:dev
-    - rsync -r -a -z -e ssh --delete out/ gitlab@34.94.173.160:/home/gitlab/municipios/devFrontend
+    - yarn start:test
 
-Nextjs to production:
+Deploy Frontend with Next:
+  stage: deploydev
+  only:
+    - develop
+  script:
+    - yarn install --silent
+    - yarn build:dev
+    - ssh gitlab@34.94.173.160 'pm2 stop dNext'
+    - rsync -r -a -z -e ssh --delete --exclude './node_modules' . gitlab@34.94.173.160:/home/gitlab/municipios/dNextFrontend
+    - ssh gitlab@34.94.173.160 'pm2 restart dNext'
+
+Deploy Frontend with Next Production:
   stage: deployprod
   only:
     - master
   script:
-    - npm install --silent
-    - npm run build
-    - ls -la app
-    - cp app/.htaccess build/.htaccess
-    - cp app/robots.txt build/
-    - cp app/sitemap.txt build/
-    - cp -r public/* build/
-    - rsync -r -a -z -e ssh --delete build/ gitlab@34.94.173.160:/home/gitlab/municipios/frontend
+    - yarn install --silent
+    - yarn build
+    - ssh gitlab@34.94.173.160 'pm2 stop next'
+    - rsync -r -a -z -e ssh --delete --exclude './node_modules' . gitlab@34.94.173.160:/home/gitlab/municipios/nextFrontend
+    - ssh gitlab@34.94.173.160 'pm2 restart next'

@@ -58,7 +58,7 @@ const styles = theme => ({
 });
 
 class PdfDateIntroLikes extends React.Component {
-  UNSAFE_componentWillMount() {
+  componentWillMount() {
     const { getPost, router } = this.props;
     getPost(router.query.publicationId);
   }

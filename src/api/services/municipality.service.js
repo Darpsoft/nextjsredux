@@ -31,6 +31,7 @@ export class MunicipalityService extends HttpClient {
       }]
     }
     const { municipalityFeatures, municipalityChannels } = await this.findById(municipalityId, filter);
+    console.log(data)
     municipalityFeatures.map(relation => {
       if (relation.feature !== undefined) {
         return {
@@ -70,7 +71,9 @@ export class MunicipalityService extends HttpClient {
         },
       ],
     };
+
     const response = await this.find(filter);
+
     const { municipalityFileStorages, ...municipality } = response.shift();
 
     if (municipalityFileStorages !== undefined) {
@@ -79,7 +82,6 @@ export class MunicipalityService extends HttpClient {
         logotipo: FileStorageApi.getLinkTo(image),
       });
     }
-
     return municipality;
   }
 }

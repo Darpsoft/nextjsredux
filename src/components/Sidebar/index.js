@@ -22,7 +22,6 @@ class Sidebar extends React.Component {
 
   componentDidMount() {
     window.addEventListener('scroll', this.handleScroll);
-
     const { dataMenu } = this.props;
     const features = type => dataMenu
       .map(el => {
@@ -103,7 +102,7 @@ class Sidebar extends React.Component {
       status, anchorEl, turnDarker, dataMenuAdjusted
     } = this.state;
     return (
-      <>
+      <Fragment>
         <Hidden lgUp>
           <SwipeableDrawer
             onClose={toggleDrawerOpen}
@@ -155,8 +154,8 @@ class Sidebar extends React.Component {
             />
           </Drawer>
         </Hidden>
-      </>
-    )
+      </Fragment>
+    );
   }
 }
 

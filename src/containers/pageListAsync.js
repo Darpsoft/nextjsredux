@@ -1,5 +1,5 @@
 // import { Loading } from '@components';
-import dynamic from 'next/dynamic';
+import dynamic from "next/dynamic";
 
 // // Dashboard
 // export const LandingPage = dynamic({
@@ -161,8 +161,4 @@ import dynamic from 'next/dynamic';
 
 // news components
 
-// Se colocó ssr porque no es un módulo que trabaja del lado del servidor
-
-export const MapMarker = dynamic(() => import('./Maps/MapMarker'), {
-  ssr: false
-})
+export default dynamic(() => import("./Maps/MapMarker"));
